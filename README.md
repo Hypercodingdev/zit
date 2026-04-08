@@ -68,6 +68,7 @@ All commands have short aliases for convenience.
 | `zit clone <url>` | | Clone with workspace SSH key |
 | `zit status` | | Show current workspace info |
 | `zit completion` | | Output shell completion script |
+| `zit uninstall` | | Remove all zit data and configs |
 
 ### `zit add`
 
@@ -152,6 +153,27 @@ Account:   work
 Name:      John Doe
 Email:     john@company.com
 SSH Key:   ~/.ssh/id_ed25519_work
+```
+
+## Uninstall
+
+```shell
+zit uninstall
+```
+
+This removes all zit data in one step:
+- All workspace `includeIf` entries from `~/.gitconfig`
+- All workspace gitconfig files
+- All SSH keys for registered accounts (use `--keep-keys` to skip)
+- The `~/.config/zit/` config directory
+- Tab completion from your shell profile
+
+Workspace folders and repos inside them are **not** deleted.
+
+After running `zit uninstall`, remove the CLI itself:
+
+```shell
+npm uninstall -g @hypercodingdev/zit
 ```
 
 ## What zit Does to Your System

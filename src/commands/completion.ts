@@ -19,7 +19,7 @@ if type complete &>/dev/null; then
       cword=$COMP_CWORD
     }
 
-    local commands="add remove list workspace clone status completion help"
+    local commands="add remove list workspace clone status completion uninstall help"
     local ws_subcommands="init list remove"
 
     # Position 1: top-level command
@@ -77,6 +77,7 @@ elif type compdef &>/dev/null; then
       'clone:Clone a repo with workspace SSH key'
       'status:Show current workspace info'
       'completion:Output shell completion script'
+      'uninstall:Remove all zit data and configs'
       'help:Display help'
     )
     local ws_subcommands=(

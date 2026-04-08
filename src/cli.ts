@@ -10,6 +10,7 @@ import { registerWorkspaceCommand } from "./commands/workspace.js";
 import { registerCloneCommand } from "./commands/clone.js";
 import { registerStatusCommand } from "./commands/status.js";
 import { registerCompletionCommand } from "./commands/completion.js";
+import { registerUninstallCommand } from "./commands/uninstall.js";
 import { readConfig } from "./config.js";
 
 const pkg = JSON.parse(
@@ -32,6 +33,7 @@ registerWorkspaceCommand(program);
 registerCloneCommand(program);
 registerStatusCommand(program);
 registerCompletionCommand(program);
+registerUninstallCommand(program);
 
 // Hidden helpers for shell completion
 program
