@@ -22,39 +22,49 @@ if type complete &>/dev/null; then
     local commands="add remove list workspace clone status completion help"
     local ws_subcommands="init list remove"
 
+    # Position 1: top-level command
+    if [ "$cword" -eq 1 ]; then
+      COMPREPLY=($(compgen -W "$commands" -- "$cur"))
+      return
+    fi
+
     case "\${words[1]}" in
-      remove)
-        COMPREPLY=($(compgen -W "$(zit _list-accounts 2>/dev/null)" -- "$cur"))
+      remove|rm)
+        # Position 2: account name. Position 3+: nothing
+        if [ "$cword" -eq 2 ]; then
+          COMPREPLY=($(compgen -W "$(zit _list-accounts 2>/dev/null)" -- "$cur"))
+        fi
         return
         ;;
       workspace|wsp)
+        # Position 2: subcommand
         if [ "$cword" -eq 2 ]; then
           COMPREPLY=($(compgen -W "$ws_subcommands" -- "$cur"))
           return
         fi
         case "\${words[2]}" in
-          remove)
-            COMPREPLY=($(compgen -W "$(zit _list-workspaces 2>/dev/null)" -- "$cur"))
-            return
-            ;;
           init)
-            if [ "$cword" -eq 4 ]; then
+            # Position 3: folder path. Position 4: account name. Position 5+: nothing
+            if [ "$cword" -eq 3 ]; then
+              COMPREPLY=($(compgen -d -- "$cur"))
+            elif [ "$cword" -eq 4 ]; then
               COMPREPLY=($(compgen -W "$(zit _list-accounts 2>/dev/null)" -- "$cur"))
-              return
             fi
-            COMPREPLY=($(compgen -d -- "$cur"))
-            return
             ;;
+          remove)
+            # Position 3: workspace name. Position 4+: nothing
+            if [ "$cword" -eq 3 ]; then
+              COMPREPLY=($(compgen -W "$(zit _list-workspaces 2>/dev/null)" -- "$cur"))
+            fi
+            ;;
+          # list: no arguments
         esac
         return
         ;;
+      # add, list, ls, clone, status, completion, help: no completable arguments
     esac
-
-    if [ "$cword" -eq 1 ]; then
-      COMPREPLY=($(compgen -W "$commands" -- "$cur"))
-    fi
   }
-  complete -o default -F _zit_completions zit
+  complete -o nospace -F _zit_completions zit
 
 elif type compdef &>/dev/null; then
   # Zsh completion
@@ -75,40 +85,48 @@ elif type compdef &>/dev/null; then
       'remove:Unlink a workspace'
     )
 
+    # Position 2: top-level command (zsh CURRENT is 1-indexed, word 1 is "zit")
+    if (( CURRENT == 2 )); then
+      _describe 'command' commands
+      return
+    fi
+
     case "\${words[2]}" in
-      remove)
-        local accounts=(\${(f)"$(zit _list-accounts 2>/dev/null)"})
-        compadd -a accounts
+      remove|rm)
+        # Position 3: account name. Position 4+: nothing
+        if (( CURRENT == 3 )); then
+          local accounts=(\${(f)"$(zit _list-accounts 2>/dev/null)"})
+          compadd -a accounts
+        fi
         return
         ;;
       workspace|wsp)
+        # Position 3: subcommand
         if (( CURRENT == 3 )); then
           _describe 'subcommand' ws_subcommands
           return
         fi
         case "\${words[3]}" in
-          remove)
-            local workspaces=(\${(f)"$(zit _list-workspaces 2>/dev/null)"})
-            compadd -a workspaces
-            return
-            ;;
           init)
-            if (( CURRENT == 5 )); then
+            # Position 4: folder path. Position 5: account name. Position 6+: nothing
+            if (( CURRENT == 4 )); then
+              _files -/
+            elif (( CURRENT == 5 )); then
               local accounts=(\${(f)"$(zit _list-accounts 2>/dev/null)"})
               compadd -a accounts
-              return
             fi
-            _files -/
-            return
+            ;;
+          remove)
+            # Position 4: workspace name. Position 5+: nothing
+            if (( CURRENT == 4 )); then
+              local workspaces=(\${(f)"$(zit _list-workspaces 2>/dev/null)"})
+              compadd -a workspaces
+            fi
             ;;
         esac
         return
         ;;
     esac
-
-    if (( CURRENT == 2 )); then
-      _describe 'command' commands
-    fi
   }
   compdef _zit_completions zit
 fi
