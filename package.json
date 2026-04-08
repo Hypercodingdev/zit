@@ -3,7 +3,7 @@
   "publishConfig": {
     "access": "public"
   },
-  "version": "1.0.4",
+  "version": "1.1.0",
   "description": "Folder-based Git identity manager. Associate workspace folders with Git accounts — SSH keys, author name, and email are applied automatically.",
   "main": "dist/cli.js",
   "bin": {
