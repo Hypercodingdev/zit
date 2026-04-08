@@ -23,6 +23,17 @@ npm install -g @hypercodingdev/zit
 
 Requires Node.js >= 18, `git`, and `ssh-keygen`.
 
+### Tab Completion
+
+Enable tab completion for bash or zsh:
+
+```shell
+# Add to your shell profile (~/.zshrc or ~/.bashrc)
+eval "$(zit completion)"
+```
+
+After restarting your shell, `zit <tab>` will show available commands, and arguments like account names and workspace names will auto-complete.
+
 ## Quick Start
 
 ```shell
@@ -49,6 +60,18 @@ git push  # uses work SSH key automatically
 
 ## Commands
 
+All commands have short aliases for convenience.
+
+| Command | Alias | Description |
+|---------|-------|-------------|
+| `zit add` | | Register a new git account |
+| `zit remove <account>` | `zit rm` | Remove an account and SSH keys |
+| `zit list` | `zit ls` | List all registered accounts |
+| `zit workspace <sub>` | `zit wsp` | Manage workspace folders |
+| `zit clone <url>` | | Clone with workspace SSH key |
+| `zit status` | | Show current workspace info |
+| `zit completion` | | Output shell completion script |
+
 ### `zit add`
 
 Register a new git account interactively. Generates an SSH keypair.
@@ -62,7 +85,7 @@ Supported key types: `ed25519` (default), `rsa`, `ecdsa`, `ecdsa-sk`, `ed25519-s
 
 ### `zit remove <account>`
 
-Remove an account and its SSH keys.
+Remove an account and its SSH keys. Alias: `zit rm`
 
 ```shell
 zit remove work
@@ -71,7 +94,7 @@ zit remove work --force  # also removes linked workspaces
 
 ### `zit list`
 
-List all registered accounts with their emails.
+List all registered accounts with their emails. Alias: `zit ls`
 
 ```shell
 $ zit list
@@ -83,7 +106,7 @@ Registered accounts:
 
 ### `zit workspace init <path> <account>`
 
-Create a workspace folder linked to an account.
+Create a workspace folder linked to an account. Alias: `zit wsp`
 
 ```shell
 zit workspace init ~/work work

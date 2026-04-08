@@ -16,7 +16,8 @@ import { resolvePath, collapseHome, green, red, yellow } from "../utils.js";
 export function registerWorkspaceCommand(program: Command): void {
   const ws = program
     .command("workspace")
-    .description("Manage workspace folders linked to accounts");
+    .alias("wsp")
+    .description("Manage workspace folders linked to accounts (alias: wsp)");
 
   ws.command("init <path> <account>")
     .description("Create a workspace folder linked to an account")

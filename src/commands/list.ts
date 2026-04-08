@@ -5,7 +5,8 @@ import { green, yellow } from "../utils.js";
 export function registerListCommand(program: Command): void {
   program
     .command("list")
-    .description("List all registered accounts")
+    .alias("ls")
+    .description("List all registered accounts (alias: ls)")
     .action(() => {
       const config = readConfig();
       const accounts = Object.entries(config.accounts);

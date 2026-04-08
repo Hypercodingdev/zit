@@ -8,7 +8,8 @@ import { red, green, yellow } from "../utils.js";
 export function registerRemoveCommand(program: Command): void {
   program
     .command("remove <account>")
-    .description("Remove a registered git account and its SSH keys")
+    .alias("rm")
+    .description("Remove a registered git account and its SSH keys (alias: rm)")
     .option("--force", "Remove even if workspaces reference this account")
     .action((accountName: string, opts: { force?: boolean }) => {
       const config = readConfig();
