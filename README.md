@@ -23,16 +23,13 @@ npm install -g @hypercodingdev/zit
 
 Requires Node.js >= 18, `git`, and `ssh-keygen`.
 
-### Tab Completion
-
-Enable tab completion for bash or zsh:
+After installing, run this to enable tab completion (recommended):
 
 ```shell
-# Add to your shell profile (~/.zshrc or ~/.bashrc)
-eval "$(zit completion)"
+zit completion --install
 ```
 
-After restarting your shell, `zit <tab>` will show available commands, and arguments like account names and workspace names will auto-complete.
+This adds auto-complete to your shell so you can type `zit <tab>` to see commands, `zit remove <tab>` to see account names, etc. Restart your shell or run `source ~/.zshrc` (or `~/.bashrc`) to activate.
 
 ## Quick Start
 

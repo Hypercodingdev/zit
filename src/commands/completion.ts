@@ -115,11 +115,47 @@ fi
 ###-end-zit-completions-###
 `.trimStart();
 
+import * as fs from "node:fs";
+import * as path from "node:path";
+import * as os from "node:os";
+import { green, yellow } from "../utils.js";
+
+function getShellProfile(): string | null {
+  const shell = process.env.SHELL || "";
+  if (shell.includes("zsh")) return path.join(os.homedir(), ".zshrc");
+  if (shell.includes("bash")) return path.join(os.homedir(), ".bashrc");
+  return null;
+}
+
+const COMPLETION_LINE = 'eval "$(zit completion)"';
+
 export function registerCompletionCommand(program: Command): void {
   program
     .command("completion")
-    .description("Output shell completion script (eval \"$(zit completion)\")")
-    .action(() => {
-      process.stdout.write(COMPLETION_SCRIPT);
+    .description("Output shell completion script or install it to your profile")
+    .option("--install", "Add completion to your shell profile (~/.zshrc or ~/.bashrc)")
+    .action((opts: { install?: boolean }) => {
+      if (!opts.install) {
+        process.stdout.write(COMPLETION_SCRIPT);
+        return;
+      }
+
+      const profile = getShellProfile();
+      if (!profile) {
+        console.log(yellow("Could not detect shell profile. Add this line manually:"));
+        console.log(`  ${COMPLETION_LINE}`);
+        return;
+      }
+
+      const content = fs.existsSync(profile) ? fs.readFileSync(profile, "utf-8") : "";
+      if (content.includes(COMPLETION_LINE)) {
+        console.log(green("Tab completion is already installed in " + profile));
+        return;
+      }
+
+      fs.appendFileSync(profile, `\n# zit tab completion\n${COMPLETION_LINE}\n`);
+      console.log(green(`Tab completion installed in ${profile}`));
+      console.log("Restart your shell or run:");
+      console.log(`  source ${profile}`);
     });
 }
