@@ -1,0 +1,42 @@
+{
+  "name": "@hypercodingdev/zit",
+  "publishConfig": {
+    "access": "public"
+  },
+  "version": "1.0.3",
+  "description": "Folder-based Git identity manager. Associate workspace folders with Git accounts — SSH keys, author name, and email are applied automatically.",
+  "main": "dist/cli.js",
+  "bin": {
+    "zit": "dist/cli.js"
+  },
+  "scripts": {
+    "build": "tsc",
+    "dev": "tsc --watch",
+    "start": "node dist/cli.js",
+    "prepare": "tsc"
+  },
+  "keywords": [
+    "git",
+    "ssh",
+    "identity",
+    "account",
+    "workspace",
+    "multi-account"
+  ],
+  "license": "MIT",
+  "engines": {
+    "node": ">=18"
+  },
+  "files": [
+    "dist"
+  ],
+  "dependencies": {
+    "commander": "^12.0.0",
+    "ini": "^4.1.0"
+  },
+  "devDependencies": {
+    "@types/ini": "^4.1.0",
+    "@types/node": "^20.0.0",
+    "typescript": "^5.4.0"
+  }
+}
