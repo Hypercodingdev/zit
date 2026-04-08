@@ -24,6 +24,14 @@
     "multi-account"
   ],
   "license": "MIT",
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/Hypercodingdev/zit.git"
+  },
+  "homepage": "https://github.com/Hypercodingdev/zit#readme",
+  "bugs": {
+    "url": "https://github.com/Hypercodingdev/zit/issues"
+  },
   "engines": {
     "node": ">=18"
   },
